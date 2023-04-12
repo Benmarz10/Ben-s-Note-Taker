@@ -24,7 +24,7 @@ Saved Notes: ![Image](/public/assets/images/Note%20taker%20saved%20notes.jpg)
 
 ## Credits
 U of M fullstack dev activities.
-Miguel Montenegro https://github.com/Darkunitx
+Miguel Montenegro https://github.com/Darkunitx/Miggys-Note-Taker - Helped explain the get/post/delete routes. 
 
 ## License
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
