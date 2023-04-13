@@ -3,49 +3,25 @@ const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
-let notes = [];
-
-router.get("/notes", (req, res) => {
-  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
-    if (err) throw err;
-    notes = JSON.parse(data);
-    res.json(notes);
-  });
+router.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, '../db/db.json'));
 });
 
 router.post("/notes", (req, res) => {
-  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
-    if (err) throw err;
-    notes = JSON.parse(data);
-    const newNote = req.body;
-    newNote.id = uuidv4();
-    notes.push(newNote);
-    fs.writeFile(
-      path.join(__dirname, "../db/db.json"),
-      JSON.stringify(notes),
-      (err) => {
-        if (err) throw err;
-        res.json(notes);
-      }
-    );
-  });
-});
+  // Save a new note on request
+  let note = fs.readFileSync('db/db.json');
+  note = JSON.parse(note);
+  res.json(note);
 
-router.delete("/notes/:id", (req, res) => {
-  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
-    if (err) throw err;
-    notes = JSON.parse(data);
-    const id = req.params.id;
-    notes = notes.filter((note) => note.id !== id);
-    fs.writeFile(
-      path.join(__dirname, "../db/db.json"),
-      JSON.stringify(notes),
-      (err) => {
-        if (err) throw err;
-        res.json(notes);
-      }
-    );
-  });
-});
+  let newNote = {
+    title: req.body.title,
+    text: req.body.text,
+    id: uuidv4(),
+  };
+  note.push(newNote);
+  fs.writeFileSync('db/db.json', JSON.stringify(note));
+  res.json(note);
+})
+
 
 module.exports = router;
